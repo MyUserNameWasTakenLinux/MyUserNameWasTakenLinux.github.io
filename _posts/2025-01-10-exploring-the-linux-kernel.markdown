@@ -45,3 +45,29 @@ To find a similar struct in the Linux kernel, I search for any file named proces
 
 There's a struct called `pt_regs` that seems to store the RISC-V registers. Though its definition is not in the file, there are a few functions that take the struct as an argument. These functions are `show_regs`, `__show_regs`, `start_thread`, and `copy_thread`. What is a thread? What is the difference between a thread and a process?
 
+In the `start_thread` function there are only a few registers whose values are modified: the status register, the program counter, and the stack pointer. This suggests that a thread and a process cannot be the same thing.
+
+There's another struct called `task_struct` which may be worth looking into. What I want to do next is find the definition of `task_struct` and `pt_regs`. The definition of `pt_regs` must be within RISC-V directory, since it's platform dependent.
+
+A task in the linux kernel seems to be what the OSTEP book refers to as a process. Just like how there are process states,
+
+```C
+enum proc_state {UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE};
+```
+
+there are task states. There are too many to list all of them, so I only list a few.
+
+```C
+#define TASK_RUNNING			0x00000000
+#define TASK_INTERRUPTIBLE		0x00000001
+#define TASK_UNINTERRUPTIBLE		0x00000002
+#define __TASK_STOPPED			0x00000004
+#define __TASK_TRACED			0x00000008
+/* Used in tsk->exit_state: */
+#define EXIT_DEAD			0x00000010
+#define EXIT_ZOMBIE			0x00000020
+#define EXIT_TRACE			(EXIT_ZOMBIE | EXIT_DEAD)
+/* Used in tsk->__state again: */
+#define TASK_PARKED			0x00000040
+#define TASK_DEAD			0x00000080
+```
