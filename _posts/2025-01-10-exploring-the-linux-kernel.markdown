@@ -51,13 +51,13 @@ There's another struct called `task_struct` which may be worth looking into. Wha
 
 A task in the linux kernel seems to be what the OSTEP book refers to as a process. Just like how there are process states,
 
-```C
+```c
 enum proc_state {UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE};
 ```
 
 there are task states. There are too many to list all of them, so I only list a few.
 
-```C
+```c
 #define TASK_RUNNING			0x00000000
 #define TASK_INTERRUPTIBLE		0x00000001
 #define TASK_UNINTERRUPTIBLE		0x00000002
