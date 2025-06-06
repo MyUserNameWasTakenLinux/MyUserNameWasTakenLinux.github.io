@@ -1,17 +1,11 @@
 ---
 layout: post
 title:  "Higher-Order Newton Methods"
-date:   2025-05-03 12:09:08 -0700
+date:   2025-06-03 12:09:08 -0700
 categories: numerical-methods
 math: true
 ---
 
-The paper *Higher-Order Newton Methods with Polynomial Work per Iteration* by Ahmadi et al. presents a generalization of Newton's method that uses the dth-order Taylor approximation of the function that is to be minimzed. The function may be of multiple variables. The most obvious way of extending the classical Newton's Method to use higher-order Taylor approximations does not work, because it involves solving NP-hard problems as subtasks (for example finding the global minimum of an even degree polynomial that is not of degree 2).
+The paper *Higher-Order Newton Methods with Polynomial Work per Iteration* by Ahmadi et al. presents a generalization of Newton's method that uses high-order Taylor approximations of the objective function, in contrast to the quadratic approximation of the classical Newton method. The advantage of using a high-order Taylor approximation is faster local convergance; the paper shows that the d-th order method has local convergence of order d. The basin of convergence is also larger.
 
-The algorithm proposed by the paper goes as follows. Compute the dth-order Taylor approximation of the function to be minimized. Add a regularization term to the Taylor approximation, such that the sum is a SOS (sum of squares) convex polynomial. The regularization term can be obtained by solving a semi-definite program. Compute the minimizer of the SOS convex polynomial, which can be done by solving a semi-definite program. Iterate until desired accuracy is achieved.
-
-The paper gives an explicit iteration formula for the univariate case using a 3rd-order Taylor approximation. Consider the function $f(x) = \sqrt(x^2 + 1) - 1$.
-
-| Classical Newton  | Third Order  |
-| -------------------------------- |
-| Initial point x = 0.9. Iterations: 4. Time: 0.0001 seconds | Initial point x = 0.9. Iterations: 2. Time: 0.007 seconds |
+The issue with simply extending Newton's method to use high-order Taylor approximations is twofold. First, the problem of minimizing the high-order model, in general, is NP-hard. Second, the the model may not be bounded below - even for an objective that is strongly convex. Take the example given in the paper $f(x) = x^2 - x^4 + x^6$.
